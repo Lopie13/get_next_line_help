@@ -39,7 +39,7 @@ char	*get_next_line(int fd)
 	char		*nullpntr;
 	int			runs;
 
-	if (fd < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
+	if (read(fd, 0, 0) < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
 	{
 		clean_buff(buff[fd]);
 		return (NULL);
