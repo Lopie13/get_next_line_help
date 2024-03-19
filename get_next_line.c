@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:24:09 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/03/18 17:37:12 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:39:06 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_next_line(int fd)
 	char		*nullpntr;
 	int			runs;
 
-	if (fd < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
+	if (read(fd, 0, 0) < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
 	{
 		clean_buff(buff);
 		return (NULL);
@@ -62,7 +62,7 @@ char	*get_next_line(int fd)
 	return (result);
 }
 
-/*#include <fcntl.h>
+/* #include <fcntl.h>
 
 int	main(void)
 {
@@ -80,5 +80,17 @@ while (1)
 		break ;
 }
 close(fd);
+
+fd = open("b.txt", O_RDONLY);
+while (1)
+{
+	line = get_next_line(fd);
+	printf("Line %d:\n", i++);
+	printf("-> %s", line);
+	free(line);
+	if (!line)
+		break ;
+}
+close(fd);
 return (0);
-}*/
+} */

@@ -6,7 +6,7 @@
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:00:55 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/03/14 12:23:51 by mmata-al         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:05:47 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,29 @@ void	buffer_neat(char *nlp, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buff[BUFFER_SIZE + 1];
+	static char	buff[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*result;
 	char		*nullpntr;
 	int			runs;
 
 	if (fd < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
 	{
-		clean_buff(buff);
+		clean_buff(buff[fd]);
 		return (NULL);
 	}
 	result = NULL;
 	runs = -1;
-	while ((buff[0] || read(fd, buff, BUFFER_SIZE)) && runs++ > -2)
+	while ((buff[fd][0] || read(fd, buff[fd], BUFFER_SIZE)) && runs++ > -2)
 	{
-		nullpntr = ft_strchr(buff, '\n');
-		result = ftstrjoiner(result, buff, runs);
+		nullpntr = ft_strchr(buff[fd], '\n');
+		result = ftstrjoiner(result, buff[fd], runs);
 		if (nullpntr)
 		{
-			buffer_neat(nullpntr, buff);
+			buffer_neat(nullpntr, buff[fd]);
 			break ;
 		}
 		else
-			clean_buff (buff);
+			clean_buff (buff[fd]);
 	}
 	return (result);
 }
