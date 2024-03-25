@@ -19,11 +19,15 @@ char	*get_next_line(int fd)
 	int			i;
 	int			runs;
 
+<<<<<<< HEAD
 	i = 0;
 	runs = -1;
 	if (fd >= FOPEN_MAX || fd < 0 )
 		return (NULL);
 	if (read(fd, 0, 0) < 0 || BUFFER_SIZE < 1)
+=======
+	if (read(fd, 0, 0) < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
+>>>>>>> 171791aef3cf323cbdaf64a82bf864154ef3e494
 	{
 		while (buff[fd][i])
 			buff[fd][i++] = '\0';
@@ -67,4 +71,8 @@ while (1)
 close(fd1);
 close(fd2);
 return (0);
+<<<<<<< HEAD
 }
+=======
+} */
+>>>>>>> 171791aef3cf323cbdaf64a82bf864154ef3e494
