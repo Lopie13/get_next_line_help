@@ -5,28 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 12:00:59 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/03/14 12:02:43 by mmata-al         ###   ########.fr       */
+/*   Created: 2024/03/23 12:04:00 by mmata-al          #+#    #+#             */
+/*   Updated: 2024/03/25 14:39:43 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
-size_t	ft_strlenn(const char *s);
-void	ft_strcpy(char *dest, const char *src);
 char	*get_next_line(int fd);
-void	clean_buff(char *buffer);
-void	buffer_neat(char *nlp, char *buf);
-char	*ft_strchr(const char *s, int c);
+size_t	ft_strlenn(char *s);
 char	*ftstrjoiner(char *s1, char *s2, int runs);
+int		clean_buff(char *buf);
 
 #endif

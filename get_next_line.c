@@ -5,92 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmata-al <mmata-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 11:24:09 by mmata-al          #+#    #+#             */
-/*   Updated: 2024/03/19 15:39:06 by mmata-al         ###   ########.fr       */
+/*   Created: 2024/03/23 10:57:39 by mmata-al          #+#    #+#             */
+/*   Updated: 2024/03/25 14:31:40 by mmata-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-void	clean_buff(char *buffer)
-{
-	int	this;
-
-	this = 0;
-	while (this < BUFFER_SIZE)
-	{
-		buffer[this] = 0;
-		this++;
-	}
-}
-
-void	buffer_neat(char *nlp, char *buf)
-{
-	if (nlp[1] == '\0')
-		clean_buff(buf);
-	else
-		ft_strcpy(buf, nlp + 1);
-}
 
 char	*get_next_line(int fd)
 {
 	static char	buff[BUFFER_SIZE + 1];
 	char		*result;
-	char		*nullpntr;
-	int			runs;
+	int			i;
 
-	if (read(fd, 0, 0) < 0 || fd >= FOPEN_MAX || BUFFER_SIZE < 1)
+	i = 0;
+	if (read(fd, 0, 0) < 0 || fd < 0 || BUFFER_SIZE < 1)
 	{
-		clean_buff(buff);
+		while (buff[i])
+			buff[i++] = '\0';
 		return (NULL);
 	}
 	result = NULL;
-	runs = -1;
-	while ((buff[0] || read(fd, buff, BUFFER_SIZE)) && runs++ > -2)
+	while (buff[0] || read(fd, buff, BUFFER_SIZE) > 0)
 	{
-		nullpntr = ft_strchr(buff, '\n');
-		result = ftstrjoiner(result, buff, runs);
-		if (nullpntr)
-		{
-			buffer_neat(nullpntr, buff);
+		result = ftstrjoin(result, buff);
+		if (clean_buff(buff))
 			break ;
-		}
-		else
-			clean_buff (buff);
 	}
 	return (result);
 }
 
-/* #include <fcntl.h>
+#include <fcntl.h>
 
 int	main(void)
 {
-int		fd;
-char	*line;
-int i = 1;
-fd = open("a.txt", O_RDONLY);
-while (1)
+	int		fd;
+	char	*line;
+	int i = 1;
+	printf("FILE 1:\n");
+	fd = open("a.txt", O_RDONLY);
+	while (1)
+	{
+		line = get_next_line(fd);
+		printf("Line %d", i++);
+		printf("-> %s", line);
+		free(line);
+		if (!line)
+			break ;
+	}
+	close(fd);
+	i = 1;
+	printf("\nFILE 2:\n");
+	fd = open("vb.txt", O_RDONLY);
+	while (1)
+	{
+		line = get_next_line(fd);
+		printf("Line %d", i++);
+		printf("-> %s", line);
+		free(line);
+		if (!line)
+			break ;
+	}
+	close(fd);
+	i = 1;
+	printf("\nCLOSED FILE:\n");
+	fd = open("a.txt", O_RDONLY);
+	close(fd);
+	while (1)
 {
 	line = get_next_line(fd);
-	printf("Line %d:\n", i++);
+	printf("Line %d", i++);
 	printf("-> %s", line);
 	free(line);
 	if (!line)
 		break ;
 }
-close(fd);
 
-fd = open("b.txt", O_RDONLY);
-while (1)
-{
-	line = get_next_line(fd);
-	printf("Line %d:\n", i++);
-	printf("-> %s", line);
-	free(line);
-	if (!line)
-		break ;
-}
-close(fd);
 return (0);
-} */
+}
